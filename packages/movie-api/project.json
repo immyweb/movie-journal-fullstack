@@ -1,0 +1,53 @@
+{
+  "name": "movie-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/movie-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/packages/movie-api",
+        "main": "packages/movie-api/src/main.ts",
+        "tsConfig": "packages/movie-api/tsconfig.app.json",
+        "assets": ["packages/movie-api/src/assets"],
+        "webpackConfig": "packages/movie-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "movie-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "movie-api:build:development"
+        },
+        "production": {
+          "buildTarget": "movie-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/movie-api/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
